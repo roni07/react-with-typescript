@@ -1,18 +1,37 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import List from "./components/List";
 import AddToList from "./components/AddToList";
 
 export interface IState {
     people: {
-      name: string,
-      age: number,
-      url: string,
-      note?: string
+        name: string,
+        age: number,
+        url: string,
+        note?: string
     }[]
 }
 
+export interface PostIState {
+    posts: {}[];
+}
+
 function App() {
+
+    const [posts, setPosts] = useState<PostIState["posts"]>([]);
+
+    const postData = [
+        {
+            id: 1,
+            title: "facebook post",
+            like: 120
+        },
+        {
+            id: 2,
+            title: "instagram post",
+            like: 120
+        },
+    ];
 
     const [people, setPeople] = useState<IState["people"]>([
         {
@@ -23,9 +42,37 @@ function App() {
         }
     ]);
 
+
+    useEffect(() => {
+
+        const getPostData = () => {
+            setPosts(postData);
+        }
+
+        // init call
+        getPostData();
+
+        //  interval call
+        const interval = setInterval(() => getPostData(), 3000);
+
+        // clear interval while dispose
+        return () => clearInterval(interval);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
         <div className="App">
             <h1>People Invited To My Party</h1>
+            <div>
+                {
+                    posts.map((post: any) => <div key={post.id}>
+                        <p>{post.id}</p>
+                        <p>{post.title}</p>
+                        <p>{post.like}</p>
+                    </div>)
+                }
+            </div>
             <List people={people}/>
             <AddToList people={people} setPeople={setPeople}/>
         </div>

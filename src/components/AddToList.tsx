@@ -15,8 +15,7 @@ const AddToList: React.FC<IProps> = ({people, setPeople}) => {
         note: ""
     });
 
-    const handleInputChange = (e: any) => {
-    // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
         setInput({
             ...input,
             [e.target.name]: e.target.value
